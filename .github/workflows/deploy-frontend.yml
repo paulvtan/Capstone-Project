@@ -42,11 +42,14 @@ jobs:
           npm run build --if-present
           npm run test --if-present
 
+      - name: Zip all files for upload between jobs
+        run: zip --symlinks -r nest.zip ./.env ./*
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: node-app
-          path: .
+          path: ${{ github.workspace }}/${{ env.FRONTEND_DIRECTORY }}/angular.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -67,5 +70,5 @@ jobs:
         with:
           app-name: ${{ env.APP_NAME }}
           slot-name: ${{ env.SLOT_NAME }}
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_25CBC43E4BD746FC880E168BB8E51189 }}
-          package: .
+          publish-profile: ${{ secrets.FRONTEND_PUBLISH_PROFILE }}
+          package: angular.zip
