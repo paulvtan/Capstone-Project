@@ -41,7 +41,6 @@ jobs:
           npm prune --production
           npm install
           npm run build --if-present
-
       - name: Zip all files for upload between jobs
         run: zip --symlinks -r angular.zip ./*
 
@@ -53,6 +52,8 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
+    needs: build
+    environment:
       name: "Production"
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
