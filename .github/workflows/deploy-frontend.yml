@@ -17,9 +17,10 @@ on:
 env:
   ## Sets environment variable
   FRONTEND_DIRECTORY: app_frontend
-  PUBLISH_PROFILE: ${{ secrets.FRONTEND_PUBLISH_PROFILE }}
+  DIST_DIRECTORY: dist/my-fe-app
   APP_NAME: pixelsforpeace
   SLOT_NAME: Production
+  PUBLISH_PROFILE: ${{ secrets.FRONTEND_PUBLISH_PROFILE }}
 
 jobs:
   build:
@@ -49,7 +50,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: node-app
-          path: ${{ github.workspace }}/${{ env.FRONTEND_DIRECTORY }}/dist/my-fe-app
+          path: ${{ github.workspace }}/${{ env.FRONTEND_DIRECTORY }}/${{ env.DIST_DIRECTORY }}
 
   deploy:
     runs-on: ubuntu-latest
